@@ -7,13 +7,11 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        recognizeCards("/Users/elmo/Downloads/Тестовое задание Java/imgs_marked");
+        recognizeCards("/Users/arturzangiev/Projects/Card-Recognizer/imgs_marked");
     }
 
-    private static void recognizeCards(String directoryPath) throws IOException {
-        File[] directoryListing = new File(directoryPath).listFiles();
-        for (File picture: directoryListing) {
-            long startTime = System.currentTimeMillis();
+    private static void processImage(File picture) throws IOException {
+        long startTime = System.currentTimeMillis();
             String result = "";
             HashMap<String, List<Coordinates>> cardNames = getCardNames();
             HashMap<String, List<Coordinates>> cardSuits = getCardSuits();
@@ -66,6 +64,12 @@ public class Main {
             long endTime = System.currentTimeMillis();
             long duration = (endTime - startTime);
             System.out.println("reading took " + duration + " milliseconds");
+    }
+
+    private static void recognizeCards(String directoryPath) throws IOException {
+        File[] directoryListing = new File(directoryPath).listFiles();
+        for (File picture: directoryListing) {
+            processImage(picture);
         }
     }
 
