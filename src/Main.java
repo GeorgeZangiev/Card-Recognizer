@@ -7,7 +7,8 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        recognizeCards("/Users/arturzangiev/Projects/Card-Recognizer/imgs_marked");
+        CardRecognizer cardRecognizer = new CardRecognizer();
+        // recognizeCards("/Users/arturzangiev/Projects/Card-Recognizer/imgs_marked");
     }
 
     private static void processImage(File picture) throws IOException {
