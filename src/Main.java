@@ -12,12 +12,12 @@ public class Main {
 
     private static void recognizeCards(String directoryPath) throws IOException {
         File[] directoryListing = new File(directoryPath).listFiles();
+        HashMap<String, List<Coordinates>> cardNames = getCardNames();
+        HashMap<String, List<Coordinates>> cardSuits = getCardSuits();
+        HashMap<String, Integer> colors = getColors();
         for (File picture: directoryListing) {
             long startTime = System.currentTimeMillis();
             String result = "";
-            HashMap<String, List<Coordinates>> cardNames = getCardNames();
-            HashMap<String, List<Coordinates>> cardSuits = getCardSuits();
-            HashMap<String, Integer> colors = getColors();
             BufferedImage image = ImageIO.read(picture);
             boolean correctCard = false;
             for (int i = 0; i < 5; i++) {
@@ -139,3 +139,4 @@ public class Main {
         return cardNames;
     }
 }
+record Coordinates(int width, int height){}
