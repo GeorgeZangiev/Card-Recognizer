@@ -14,39 +14,40 @@ public class CardRecognizer {
     }
 
     private void loadCards() throws IOException {
-        String directoryPath = "/Users/arturzangiev/Projects/Card-Recognizer/learning_imgs";
+        String directoryPath = "/Users/elmo/Desktop/java-projects/Card-Recognizer/learning_imgs";
         File[] directoryListing = new File(directoryPath).listFiles();
         for (File picture: directoryListing) {
             BufferedImage image = ImageIO.read(picture);
             String fileName = picture.getName();
-            String fileWithoutExtention = fileName.split("[.]")[0];
-            String[] cardAbbriviations = fileWithoutExtention.split("(?<=\\G(\\d{1,2}|[A-Z])[a-z])");
+            String fileWithoutExtension = fileName.split("[.]")[0];
+            String[] cardAbbreviations = fileWithoutExtension.split("(?<=\\G(\\d{1,2}|[A-Z])[a-z])");
             int x = 150;
-            for (String cardAbbriviation : cardAbbriviations) {
+            for (String cardAbbreviation : cardAbbreviations) {
                 BufferedImage croppedCard = this.cropCard(image, x);
                 String encodedCroppedCard = this.convertBase64(croppedCard);
-                cardsMap.put(encodedCroppedCard, cardAbbriviation);
-                x = x + 70;
+                cardsMap.put(encodedCroppedCard, cardAbbreviation);
+                x = x + 72;
             }
         }
     }
 
     public void readCards() throws IOException {
-        String directoryPath = "/Users/arturzangiev/Projects/Card-Recognizer/learning_imgs";
+        String directoryPath = "/Users/elmo/Desktop/java-projects/Card-Recognizer/learning_imgs";
         File[] directoryListing = new File(directoryPath).listFiles();
         for (File picture: directoryListing) { 
             BufferedImage image = ImageIO.read(picture);
+            String cards = "";
             int x = 150;
-            System.out.println(picture);
             for (int i = 0; i < 5; i++) {
                 BufferedImage croppedCard = this.cropCard(image, x);
                 String encodedCroppedCard = this.convertBase64(croppedCard);
-                String cardAbbriviation = cardsMap.get(encodedCroppedCard);
-                if (cardAbbriviation != null) {
-                    System.out.println(cardAbbriviation);
+                String cardAbbreviation = cardsMap.get(encodedCroppedCard);
+                if (cardAbbreviation != null) {
+                    cards += cardAbbreviation;
                 }
-                x = x + 70;
+                x = x + 72;
             }
+            System.out.println(picture.getName() + " - " + cards);
         }
     }
 
@@ -54,13 +55,11 @@ public class CardRecognizer {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ImageIO.write(bi, "PNG", out);
         byte[] bytes = out.toByteArray();
-        String base64bytes = Base64.getEncoder().encodeToString(bytes);
-        return base64bytes;
+        return Base64.getEncoder().encodeToString(bytes);
     }
 
     private BufferedImage cropCard(BufferedImage image, int x) {
-        BufferedImage croppedCard = image.getSubimage(x, 590, 51, 76);
-        return croppedCard;
+        return image.getSubimage(x, 590, 51, 76);
     }
 
 }
